@@ -4,8 +4,16 @@ import { getPrincipal, HttpError } from "../server/access";
 import { getAuth } from "../server/auth";
 import { Workspace } from "./workspace";
 import { SessionControls } from "./session-controls";
+import { QuoteCalculator } from "./quote-calculator";
 export const dynamic = "force-dynamic";
 export default async function Home() {
+  // 배포 전 DB와 인증 비밀키가 없는 환경에서도 계산 시제품은 확인할 수 있다.
+  if (!process.env.DATABASE_URL && !process.env.PGLITE_DATA_DIR) {
+    return <main className="preview-page"><header><div><p className="eyebrow">ESTIMATE WORKSPACE</p><h1>정보통신공사 견적관리</h1><p>견적 금액 계산 미리보기</p></div><span className="badge">미리보기</span></header>
+      <div className="notice">견적 금액을 시험해 볼 수 있습니다. 입력 내용은 저장되지 않습니다. 저장 기능은 운영 DB와 인증 설정 후 사용할 수 있습니다.</div>
+      <QuoteCalculator />
+    </main>;
+  }
   const requestHeaders = await headers();
   let actor;
   try { actor = await getPrincipal(requestHeaders); }

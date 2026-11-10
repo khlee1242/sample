@@ -26,6 +26,8 @@ Node.js 24 및 pnpm이 필요합니다. Codex 내장 런타임도 실행 스크�
 
 운영용 PostgreSQL은 `.env.local`의 `DATABASE_URL`로 연결합니다. 운영 연결은 아직 실증하지 않았습니다. 로컬 PGlite에서 PostgreSQL로 데이터를 자동 이관하지 않으며 별도 이관 검증이 필요합니다. 운영의 비밀키·HTTPS URL·백업은 배포 전에 따로 구성해야 합니다.
 
+Vercel에서는 DB 설정 전에도 홈에서 **계산 미리보기**를 사용할 수 있습니다. 이 화면은 저장하지 않습니다. 로그인·견적 저장을 켜려면 지속형 PostgreSQL을 준비하고 `DATABASE_URL`, 32자 이상의 무작위 `BETTER_AUTH_SECRET`, 배포 주소를 담은 `BETTER_AUTH_URL`을 Vercel 환경변수로 설정한 뒤 SQL 마이그레이션과 초기 관리자 등록 절차를 별도로 검증해야 합니다. PGlite 파일 DB는 서버리스 운영용으로 사용하지 않습니다.
+
 ```powershell
 ./scripts/project.ps1 test
 ./scripts/project.ps1 typecheck
