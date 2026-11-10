@@ -8,12 +8,12 @@ import * as schema from "./db/schema";
 export function createAuthentication(db: Database, secret: string, baseURL: string) {
   if (secret.length < 32) throw new Error("인증 비밀키는 32자 이상이어야 합니다.");
   return betterAuth({
-    appName: "정보통신공사 견적관리", baseURL, secret,
+    appName: "kedg견적관리", baseURL, secret,
     database: drizzleAdapter(db, { provider: "pg", schema, transaction: true }),
     emailAndPassword: { enabled: true, disableSignUp: true, minPasswordLength: 12, maxPasswordLength: 128 },
     session: { expiresIn: 60 * 60 * 8, updateAge: 60 * 15, cookieCache: { enabled: false } },
     rateLimit: { enabled: true, storage: "database", window: 60, max: 100, customRules: { "/sign-in/email": { window: 60, max: 5 } } },
-    plugins: [twoFactor({ issuer: "견적관리" })],
+    plugins: [twoFactor({ issuer: "kedg견적관리" })],
     advanced: { database: { generateId: "uuid" } },
   });
 }
